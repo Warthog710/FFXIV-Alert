@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>FFXIV Alarm</title>
+{% endblock %}
+
+{% block body %}
+<div class="mx-lg-5">
+    <div class="container">
+        <div class="row">
+            <div class="btn-group" role="group" aria-label="Region Selection">
+                <input type="radio" class="btn-check" name="btnradio" id="radio_japanese"
+                    onclick="show_div(japanese_table)">
+                <label class="btn btn-outline-dark col-sm-4" for="radio_japanese"><strong>Japanese Data Centers</strong></label>
+                <input type="radio" class="btn-check" name="btnradio" id="radio_american"
+                    onclick="show_div(american_table)" checked>
+                <label class="btn btn-outline-dark col-sm-4" for="radio_american"><strong>North American Data
+                        Centers</strong></label>
+                <input type="radio" class="btn-check" name="btnradio" id="radio_european"
+                    onclick="show_div(european_table)">
+                <label class="btn btn-outline-dark col-sm-4" for="radio_european"><strong>European Data Centers</strong></label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="display-none" id="japanese_table">
+    <div class="container">
+        <table class="table table-striped table-dark">
+            <thead>
+                <tr>
+                    <th>Elemental</th>
+                    <th>Gaia</th>
+                    <th>Mana</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="display-none" id="american_table">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <table class="table table-dark table-hover">
+                    <thead>
+                        <tr>
+                            <th>Aether</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Adamantoise</td>
+                        </tr>
+                        <tr>
+                            <td>Cactuar</td>
+                        </tr>
+                        <tr>
+                            <td>Faerie</td>
+                        </tr>
+                        <tr>
+                            <td>Gilgamesh</td>
+                        </tr>
+                        <tr>
+                            <td>Jenova</td>
+                        </tr>
+                        <tr>
+                            <td>Midgardsormr</td>
+                        </tr>
+                        <tr>
+                            <td>Sargatanas</td>
+                        </tr>
+                        <tr>
+                            <td>Siren</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-4">
+                <table class="table table-dark table-hover">
+                    <thead>
+                        <tr>
+                            <th>Aether</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Adamantoise</td>
+                        </tr>
+                        <tr>
+                            <td>Cactuar</td>
+                        </tr>
+                        <tr>
+                            <td>Faerie</td>
+                        </tr>
+                        <tr>
+                            <td>Gilgamesh</td>
+                        </tr>
+                        <tr>
+                            <td>Jenova</td>
+                        </tr>
+                        <tr>
+                            <td>Midgardsormr</td>
+                        </tr>
+                        <tr>
+                            <td>Sargatanas</td>
+                        </tr>
+                        <tr>
+                            <td>Siren</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        
+    </div>
+
+    <div class="display-none" id="european_table">
+        <div class="container">
+            <table class="table table-striped table-dark">
+                <thead>
+                    <tr>
+                        <th>Chaos</th>
+                        <th>Light</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='javascript/main.js') }}"></script>
+
+    <!-- Set default selection -->
+    <script>
+        show_div(american_table)
+    </script>
+    {% endblock %}
