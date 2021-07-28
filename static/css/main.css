@@ -9,13 +9,16 @@ body
 
 .vertical-center
 {
-    min-height: 100%;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
+    padding-top: 5%;
 }
 
 .display-none
 {
     display: none;
+}
+
+.offline-icon
+{
+   height: 1em;
+   width: 1em; 
 }

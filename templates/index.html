@@ -5,134 +5,240 @@
 {% endblock %}
 
 {% block body %}
-<div class="mx-lg-5">
+<div class="vertical-center">
     <div class="container">
-        <div class="row">
-            <div class="btn-group" role="group" aria-label="Region Selection">
-                <input type="radio" class="btn-check" name="btnradio" id="radio_japanese"
-                    onclick="show_div(japanese_table)">
-                <label class="btn btn-outline-dark col-sm-4" for="radio_japanese"><strong>Japanese Data Centers</strong></label>
-                <input type="radio" class="btn-check" name="btnradio" id="radio_american"
-                    onclick="show_div(american_table)" checked>
-                <label class="btn btn-outline-dark col-sm-4" for="radio_american"><strong>North American Data
-                        Centers</strong></label>
-                <input type="radio" class="btn-check" name="btnradio" id="radio_european"
-                    onclick="show_div(european_table)">
-                <label class="btn btn-outline-dark col-sm-4" for="radio_european"><strong>European Data Centers</strong></label>
+        <div class="row justify-content-center">
+            <input type="radio" class="btn-check" name="btnradio" id="radio_japanese"
+                onclick="show_div(japanese_table)">
+            <label class="btn btn-outline-dark col-4" for="radio_japanese"><strong>Japanese Data
+                    Centers</strong></label>
+            <input type="radio" class="btn-check" name="btnradio" id="radio_american" onclick="show_div(american_table)"
+                checked>
+            <label class="btn btn-outline-dark col-4" for="radio_american"><strong>North American Data
+                    Centers</strong></label>
+            <input type="radio" class="btn-check" name="btnradio" id="radio_european"
+                onclick="show_div(european_table)">
+            <label class="btn btn-outline-dark col-4" for="radio_european"><strong>European Data
+                    Centers</strong></label>
+        </div>
+    </div>
+    <div class="display-none" id="japanese_table">
+        <div class="pt-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Elemental
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                {% for server in data.elemental %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                    </div>
+                                    {% if not server[3] %}
+                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                    {% elif server[2] %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
+                                    {% else %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Gaia
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                {% for server in data.gaia %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                    </div>
+                                    {% if not server[3] %}
+                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                    {% elif server[2] %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
+                                    {% else %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Mana
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                {% for server in data.mana %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                    </div>
+                                    {% if not server[3] %}
+                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                    {% elif server[2] %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
+                                    {% else %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="display-none" id="japanese_table">
-    <div class="container">
-        <table class="table table-striped table-dark">
-            <thead>
-                <tr>
-                    <th>Elemental</th>
-                    <th>Gaia</th>
-                    <th>Mana</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-</div>
-
-<div class="display-none" id="american_table">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <table class="table table-dark table-hover">
-                    <thead>
-                        <tr>
-                            <th>Aether</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Adamantoise</td>
-                        </tr>
-                        <tr>
-                            <td>Cactuar</td>
-                        </tr>
-                        <tr>
-                            <td>Faerie</td>
-                        </tr>
-                        <tr>
-                            <td>Gilgamesh</td>
-                        </tr>
-                        <tr>
-                            <td>Jenova</td>
-                        </tr>
-                        <tr>
-                            <td>Midgardsormr</td>
-                        </tr>
-                        <tr>
-                            <td>Sargatanas</td>
-                        </tr>
-                        <tr>
-                            <td>Siren</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <div class="display-none" id="american_table">
+        <div class="pt-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Aether
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                {% for server in data.aether %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                    </div>
+                                    {% if not server[3] %}
+                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                    {% elif server[2] %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
+                                    {% else %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Primal
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                {% for server in data.primal %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                    </div>
+                                    {% if not server[3] %}
+                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                    {% elif server[2] %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
+                                    {% else %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Crystal
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                {% for server in data.crystal %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                    </div>
+                                    {% if not server[3] %}
+                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                    {% elif server[2] %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
+                                    {% else %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-4">
-                <table class="table table-dark table-hover">
-                    <thead>
-                        <tr>
-                            <th>Aether</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Adamantoise</td>
-                        </tr>
-                        <tr>
-                            <td>Cactuar</td>
-                        </tr>
-                        <tr>
-                            <td>Faerie</td>
-                        </tr>
-                        <tr>
-                            <td>Gilgamesh</td>
-                        </tr>
-                        <tr>
-                            <td>Jenova</td>
-                        </tr>
-                        <tr>
-                            <td>Midgardsormr</td>
-                        </tr>
-                        <tr>
-                            <td>Sargatanas</td>
-                        </tr>
-                        <tr>
-                            <td>Siren</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
         </div>
-        
     </div>
 
     <div class="display-none" id="european_table">
-        <div class="container">
-            <table class="table table-striped table-dark">
-                <thead>
-                    <tr>
-                        <th>Chaos</th>
-                        <th>Light</th>
-                    </tr>
-                </thead>
-            </table>
+        <div class="pt-2">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Chaos
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                {% for server in data.chaos %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                    </div>
+                                    {% if not server[3] %}
+                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                    {% elif server[2] %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
+                                    {% else %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Light
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                {% for server in data.light %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                    </div>
+                                    {% if not server[3] %}
+                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                    {% elif server[2] %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
+                                    {% else %}
+                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <script src="{{ url_for('static', filename='javascript/main.js') }}"></script>
-
-    <!-- Set default selection -->
-    <script>
-        show_div(american_table)
-    </script>
-    {% endblock %}
+</div>
+{% endblock %}
