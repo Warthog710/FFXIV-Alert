@@ -35,7 +35,7 @@
                                 {% for server in data.elemental %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
                                         <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
                                     </div>
                                     {% if not server[3] %}
@@ -59,7 +59,7 @@
                                 {% for server in data.gaia %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
                                         <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
                                     </div>
                                     {% if not server[3] %}
@@ -83,7 +83,7 @@
                                 {% for server in data.mana %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
                                         <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
                                     </div>
                                     {% if not server[3] %}
@@ -116,7 +116,7 @@
                                 {% for server in data.aether %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
                                         <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
                                     </div>
                                     {% if not server[3] %}
@@ -140,7 +140,7 @@
                                 {% for server in data.primal %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
                                         <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
                                     </div>
                                     {% if not server[3] %}
@@ -164,7 +164,7 @@
                                 {% for server in data.crystal %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
                                         <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
                                     </div>
                                     {% if not server[3] %}
@@ -197,7 +197,7 @@
                                 {% for server in data.chaos %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
                                         <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
                                     </div>
                                     {% if not server[3] %}
@@ -221,7 +221,7 @@
                                 {% for server in data.light %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}">
+                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
                                         <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
                                     </div>
                                     {% if not server[3] %}
