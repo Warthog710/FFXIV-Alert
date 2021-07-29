@@ -108,7 +108,7 @@ function send_alerts()
                 {
                     body_str += new_alerts[count] + ", ";
                 }
-                body_str += " are open for character creation."
+                body_str += "are open for character creation."
             }
             else
             {
