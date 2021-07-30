@@ -1,3 +1,8 @@
+:root
+{
+    --background-color: rgb(43, 43, 43);
+}
+
 body
 {
     background-image: url("/static/images/background.jpg");
@@ -5,6 +10,9 @@ body
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
+    padding-bottom: 75px;
+    color: white;
+    font-family: sans-serif;
 }
 
 .vertical-center
@@ -21,4 +29,150 @@ body
 {
    height: 1em;
    width: 1em; 
+}
+
+.logo-icon
+{
+    position: relative;
+    bottom: 5px;
+    height: 1.4em;
+    width: 1.4em;
+}
+
+.navbar-icon
+{
+    position: relative;
+    border-radius: 50%;
+    bottom: 2.5px;
+    width: 40px;
+    height: 40px;
+}
+
+.legend-icon
+{
+    height: 1.33em;
+    width: 1.33em;
+}
+
+.legend-background
+{
+    transition: all 0.15s ease-in-out;
+}
+
+.legend-background:hover
+{
+    transform: scale(1.4, 1.4);
+}
+
+.bordered-text
+{
+    vertical-align: middle;
+    border-radius: 10px;
+    background-color: var(--background-color);
+    padding: auto;
+}
+
+.navbar
+{
+    height: 45px;
+    padding: 0px;
+    background-color: var(--background-color);
+}
+
+.no-decoration
+{
+    text-decoration: none;
+    color: white;
+}
+
+.no-decoration:hover
+{
+    color: white;
+}
+
+.card
+{
+    background-color: var(--background-color);
+}
+
+.outlined-text
+{
+    color: black;
+    -webkit-text-stroke: 1px white;
+}
+
+.outlined-text-small
+{
+    color: white;
+    -webkit-text-stroke: .7px black;
+}
+
+.svg-outline
+{
+    filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 1px 0px white) drop-shadow(1px -1px 0px white) drop-shadow(-1px -1px 0px white);
+}
+
+.button
+{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 15px;
+    color: black;
+    border-left: 1px solid var(--background-color);
+    border-right: 1px solid var(--background-color);
+    border-bottom: 2px solid var(--background-color);
+    border-top: 2px solid var(--background-color);
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.button-left
+{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 15px;
+    color: black;
+    text-align: center;
+    border-left: 2px solid var(--background-color);
+    border-right: 1px solid var(--background-color);
+    border-bottom: 2px solid var(--background-color);
+    border-top: 2px solid var(--background-color);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.button-right
+{ 
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 15px;
+    color: black;
+    border-left: 1px solid var(--background-color);
+    border-right: 2px solid var(--background-color);
+    border-bottom: 2px solid var(--background-color);
+    border-top: 2px solid var(--background-color);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px; 
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.button:hover
+{
+    background-color: var(--background-color);
+    color: white!important;
+}
+
+.button-left:hover
+{
+    background-color: var(--background-color);
+    color: white!important;
+}
+
+.button-right:hover
+{
+    background-color: var(--background-color);
+    color: white!important;
 }

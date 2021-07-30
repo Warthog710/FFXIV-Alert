@@ -15,7 +15,18 @@
         <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
 
         <!-- Favicon -->
-        <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+        <link rel="icon" href="{{ url_for('static', filename='images/favicon.svg') }}">
+
+
+        <nav class="navbar fixed-bottom">
+            <div class="container justify-content-center">
+                <a class="navbar-brand no-decoration" href="https://na.finalfantasyxiv.com/lodestone/character/20569916/" target="_blank">
+                    <img src="https://img2.finalfantasyxiv.com/f/199538eb159c13c71104cb25fa359416_ba22853447012a24cee115315d6a5bebfc0_96x96.jpg?1597434576" alt="Profile picture" class="navbar-icon">
+                    Created by Aelderi Astralis
+                  </a>
+            </div>
+          </nav>
+
         {% block head %}{% endblock %}
     </head>
     <body onload="show_div(american_table)">

@@ -5,240 +5,288 @@
 {% endblock %}
 
 {% block body %}
-<div class="vertical-center">
-    <div class="container">
-        <div class="row justify-content-center">
-            <input type="radio" class="btn-check" name="btnradio" id="radio_japanese"
-                onclick="show_div(japanese_table)">
-            <label class="btn btn-outline-dark col-4" for="radio_japanese"><strong>Japanese Data
-                    Centers</strong></label>
-            <input type="radio" class="btn-check" name="btnradio" id="radio_american" onclick="show_div(american_table)"
-                checked>
-            <label class="btn btn-outline-dark col-4" for="radio_american"><strong>North American Data
-                    Centers</strong></label>
-            <input type="radio" class="btn-check" name="btnradio" id="radio_european"
-                onclick="show_div(european_table)">
-            <label class="btn btn-outline-dark col-4" for="radio_european"><strong>European Data
-                    Centers</strong></label>
-        </div>
+
+<div class="vertical-center text-center pb-3">
+    <h1 class="outlined-text"><span><img class="logo-icon svg-outline" src="{{ url_for('static', filename='images/favicon.svg') }}"><strong> FFXIV Alarm</strong></span></h1>
+</div>
+
+<div class="container text-center pb-2">
+    <a data-toggle="tooltip" data-placement="top" title="Character creation available">
+        <i class="fas fa-check px-5 fa-lg legend-background" style="color: green;"></i>
+    </a>
+    <a data-toggle="tooltip" data-placement="top" title="Character creation unavailable">
+        <i class="fas fa-times px-5 fa-lg legend-background" style="color: red;"></i>
+    </a>
+    <a data-toggle="tooltip" data-placement="top" title="Server offline">
+        <i class="px-5"><img class="legend-icon legend-background" style="color: red;" src="{{ url_for('static', filename='images/offline.svg') }}"></i>
+    </a>    
+</div>
+
+<div class="container">
+    <div class="row justify-content-center text-center">
+        <input type="radio" class="btn-check" name="btnradio" id="radio_japanese" onclick="show_div(japanese_table)">
+        <label id="japanese_button" class="button-left col-4" for="radio_japanese"><strong>Japanese Data
+                Centers</strong></label>
+        <input type="radio" class="btn-check" name="btnradio" id="radio_american" onclick="show_div(american_table)"
+            checked>
+        <label id="american_button" class="button col-4" for="radio_american"><strong>North American Data
+                Centers</strong></label>
+        <input type="radio" class="btn-check" name="btnradio" id="radio_european" onclick="show_div(european_table)">
+        <label id="european_button" class="button-right col-4" for="radio_european"><strong>European Data
+                Centers</strong></label>
     </div>
-    <div class="display-none" id="japanese_table">
-        <div class="pt-2">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 p-1">
-                        <div class="card">
-                            <div class="card-header text-center">
-                                Elemental
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                {% for server in data.elemental %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
-                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                    </div>
-                                    {% if not server[3] %}
-                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                    {% elif server[2] %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
-                                    {% else %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
+</div>
+<div class="display-none" id="japanese_table">
+    <div class="pt-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 p-1">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            Elemental
                         </div>
-                    </div>
-                    <div class="col-md-4 p-1">
-                        <div class="card">
-                            <div class="card-header text-center">
-                                Gaia
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                {% for server in data.gaia %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
-                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                    </div>
-                                    {% if not server[3] %}
-                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                    {% elif server[2] %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
-                                    {% else %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
-                                    {% endif %}
+                        <ul class="list-group list-group-flush">
+                            {% for server in data.elemental %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
+                                        onchange="get_notification_permission()">
+                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                </div>
+                                {% if not server[3] %}
+                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                {% elif server[2] %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
+                                        style="color: green;"></i></span>
+                                {% else %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
+                                        style="color: red;"></i></span>
+                                {% endif %}
                                 {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-4 p-1">
-                        <div class="card">
-                            <div class="card-header text-center">
-                                Mana
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                {% for server in data.mana %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
-                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                    </div>
-                                    {% if not server[3] %}
-                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                    {% elif server[2] %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
-                                    {% else %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        </div>
+                        </ul>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="display-none" id="american_table">
-        <div class="pt-2">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 p-1">
-                        <div class="card">
-                            <div class="card-header text-center">
-                                Aether
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                {% for server in data.aether %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
-                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                    </div>
-                                    {% if not server[3] %}
-                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                    {% elif server[2] %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
-                                    {% else %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
+                <div class="col-md-4 p-1">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            Gaia
                         </div>
-                    </div>
-                    <div class="col-md-4 p-1">
-                        <div class="card">
-                            <div class="card-header text-center">
-                                Primal
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                {% for server in data.primal %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
-                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                    </div>
-                                    {% if not server[3] %}
-                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                    {% elif server[2] %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
-                                    {% else %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
-                                    {% endif %}
+                        <ul class="list-group list-group-flush">
+                            {% for server in data.gaia %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
+                                        onchange="get_notification_permission()">
+                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                </div>
+                                {% if not server[3] %}
+                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                {% elif server[2] %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
+                                        style="color: green;"></i></span>
+                                {% else %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
+                                        style="color: red;"></i></span>
+                                {% endif %}
                                 {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-4 p-1">
-                        <div class="card">
-                            <div class="card-header text-center">
-                                Crystal
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                {% for server in data.crystal %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
-                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                    </div>
-                                    {% if not server[3] %}
-                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                    {% elif server[2] %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
-                                    {% else %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        </div>
+                        </ul>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="display-none" id="european_table">
-        <div class="pt-2">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-4 p-1">
-                        <div class="card">
-                            <div class="card-header text-center">
-                                Chaos
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                {% for server in data.chaos %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
-                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                    </div>
-                                    {% if not server[3] %}
-                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                    {% elif server[2] %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
-                                    {% else %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
+                <div class="col-md-4 p-1">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            Mana
                         </div>
-                    </div>
-                    <div class="col-md-4 p-1">
-                        <div class="card">
-                            <div class="card-header text-center">
-                                Light
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                {% for server in data.light %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <input class="form-check-input" type="checkbox" id="{{ server[0] }}" onchange="get_notification_permission()">
-                                        <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                    </div>
-                                    {% if not server[3] %}
-                                    <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                            src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                    {% elif server[2] %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-check" style="color: green;"></i></span>
-                                    {% else %}
-                                    <span id="{{ server[0] }}-status-icon"><i class="fas fa-times" style="color: red;"></i></span>
-                                    {% endif %}
+                        <ul class="list-group list-group-flush">
+                            {% for server in data.mana %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
+                                        onchange="get_notification_permission()">
+                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                </div>
+                                {% if not server[3] %}
+                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                {% elif server[2] %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
+                                        style="color: green;"></i></span>
+                                {% else %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
+                                        style="color: red;"></i></span>
+                                {% endif %}
                                 {% endfor %}
-                            </ul>
-                        </div>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="display-none" id="american_table">
+    <div class="pt-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 p-1">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            Aether
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% for server in data.aether %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
+                                        onchange="get_notification_permission()">
+                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                </div>
+                                {% if not server[3] %}
+                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                {% elif server[2] %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
+                                        style="color: green;"></i></span>
+                                {% else %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
+                                        style="color: red;"></i></span>
+                                {% endif %}
+                                {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 p-1">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            Primal
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% for server in data.primal %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
+                                        onchange="get_notification_permission()">
+                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                </div>
+                                {% if not server[3] %}
+                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                {% elif server[2] %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
+                                        style="color: green;"></i></span>
+                                {% else %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
+                                        style="color: red;"></i></span>
+                                {% endif %}
+                                {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 p-1">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            Crystal
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% for server in data.crystal %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
+                                        onchange="get_notification_permission()">
+                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                </div>
+                                {% if not server[3] %}
+                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                {% elif server[2] %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
+                                        style="color: green;"></i></span>
+                                {% else %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
+                                        style="color: red;"></i></span>
+                                {% endif %}
+                                {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="display-none" id="european_table">
+    <div class="pt-2">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-4 p-1">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            Chaos
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% for server in data.chaos %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
+                                        onchange="get_notification_permission()">
+                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                </div>
+                                {% if not server[3] %}
+                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                {% elif server[2] %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
+                                        style="color: green;"></i></span>
+                                {% else %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
+                                        style="color: red;"></i></span>
+                                {% endif %}
+                                {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 p-1">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            Light
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% for server in data.light %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
+                                        onchange="get_notification_permission()">
+                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
+                                </div>
+                                {% if not server[3] %}
+                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
+                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
+                                {% elif server[2] %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
+                                        style="color: green;"></i></span>
+                                {% else %}
+                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
+                                        style="color: red;"></i></span>
+                                {% endif %}
+                                {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container text-center pt-2">
+    <h4 class="outlined-text-small"><strong id="update-text">Next update in 14 seconds...</strong></h4>
+</div>
+
+<script>
+    //Enable Bootstrap Tooltips
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 {% endblock %}

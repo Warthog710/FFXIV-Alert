@@ -2,6 +2,8 @@
 var alert_setup = false;
 var notification_permission = false;
 var server_alert = new Map()
+var timer_val = 13;
+var button_background = 'rgb(43, 43, 43)'
 
 // Audio to play
 var alert_audio = new Audio('/static/audio/FFXIV_Linkshell_Transmission.mp3');
@@ -24,20 +26,41 @@ function setup_alert(data)
 function show_div(div_name)
 {
     //Show the selected table
-    document.getElementById(div_name.id).style.display = "block";
+    document.getElementById(div_name.id).style.display = "block";   
 
-    // Hide the other two divs
+    // Hide the other two divs and apply proper formatting
     if (div_name.id != "japanese_table")
     {
         document.getElementById("japanese_table").style.display = "none";
+        document.getElementById("japanese_button").style.background = "";
+        document.getElementById("japanese_button").style.color = "black";
+    }
+    else
+    {
+        document.getElementById("japanese_button").style.background = button_background;
+        document.getElementById("japanese_button").style.color = "white";
     }
     if (div_name.id != "american_table")
     {
         document.getElementById("american_table").style.display = "none";
+        document.getElementById("american_button").style.background = "";
+        document.getElementById("american_button").style.color = "black";
+    }
+    else
+    {
+        document.getElementById("american_button").style.background = button_background;
+        document.getElementById("american_button").style.color = "white";
     }
     if (div_name.id != "european_table")
     {
         document.getElementById("european_table").style.display = "none";
+        document.getElementById("european_button").style.background = "";
+        document.getElementById("european_button").style.color = "black";
+    }
+    else
+    {
+        document.getElementById("european_button").style.background = button_background;
+        document.getElementById("european_button").style.color = "white";
     }
 }
 
@@ -178,6 +201,33 @@ $(document).ready(function ()
 
             // Send alerts if any are ready to be sent
             send_alerts();
+
+            // Update timer
+            document.getElementById("update-text").innerHTML = 'Next update in 14 seconds...';
+            timer_val = 13;
         });
     }, 15000);
+});
+
+$(document).ready(function () 
+{
+    setInterval(function () 
+    {
+        // Update timer
+        if (timer_val > 1)
+        {
+            document.getElementById("update-text").innerHTML = 'Next update in ' + timer_val + ' seconds...';
+        }
+        else if (timer_val == 1)
+        {
+            document.getElementById("update-text").innerHTML = 'Next update in ' + timer_val + ' second...';
+        }
+        else
+        {
+            document.getElementById("update-text").innerHTML = 'Updating...';
+        }
+
+        // Next timer value
+        timer_val -= 1;
+    }, 1000);
 });
