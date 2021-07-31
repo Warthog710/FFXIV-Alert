@@ -12,5 +12,9 @@ def index():
 def data():
     return jsonify(lss.get_data())
 
+@app.route('/google7c4ac61d208393c8.html')
+def google_verify():
+    return render_template('google7c4ac61d208393c8.html')
+
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False)
+    app.run()

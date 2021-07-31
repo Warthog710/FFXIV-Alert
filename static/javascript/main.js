@@ -141,7 +141,7 @@ function send_alerts()
             // Javascript Notification
             var notification = new Notification
             (
-                "FFXIV Alarm", 
+                "FFXIV Alert", 
                 {
                 body: body_str, 
                 icon: '/static/images/favicon.png', 
@@ -163,7 +163,7 @@ $(document).ready(function ()
     setInterval(function () 
     {
         // Get the JSON request
-        $.getJSON('http://127.0.0.1:5000/data', function (data) 
+        $.getJSON('http://www.ffxivalert.com/data', function (data) 
         {
             // If the alerts have not been setup, setup the alerts
             if (!alert_setup)
