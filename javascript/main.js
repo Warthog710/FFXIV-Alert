@@ -50,7 +50,7 @@ function page_load(div_name)
                     document.getElementById(key + "-status-icon").innerHTML = "<i class=\"fas fa-check\" style=\"color: green;\"></i>";
 
                     // If server cc is open, set proper alert-status to true
-                    server_alert.set(key, [server_alert.get(key)[0], true])
+                    server_alert.set(key, [server_alert.get(key)[0], true]);
                 }
                 // Else, CC must be closed
                 else
@@ -76,6 +76,24 @@ function setup_alert(data)
 
     // Set setup to true
     alert_setup = true;
+}
+
+// Reads a cookie to determine what checkboxes were checked
+function check_previously_checkboxes()
+{
+    try
+    {
+        var checked_boxes = document.cookie.split('; ')[0].split('=')[1].split(',')
+
+        for (var count = 0; count < checked_boxes.length; count++)
+        {
+            document.getElementById(checked_boxes[count]).checked = true;
+        }
+    }
+    catch(error)
+    {
+        // No cookies must be set... just pass
+    }
 }
 
 // Shows a div while hiding the other divs that are not shown
@@ -143,13 +161,25 @@ function get_checked_boxes()
 }
 
 // Called when a checkbox is checked to ask the user for notification permissions
-function get_notification_permission()
+function record_checkbox_click()
 {
-    //If we haven't asked for permission to send notifications, ask for permission
+    // If we haven't asked for permission to send notifications, ask for permission
     if (!notification_permission)
     {
         Notification.requestPermission();
         notification_permission = true;
+    }
+
+    // Set cookie
+    var checked_boxes = get_checked_boxes();
+
+    if (checked_boxes.length <= 0)
+    {
+        document.cookie = 'checked_boxes=';
+    }
+    else
+    {
+        document.cookie = 'checked_boxes=' + checked_boxes;
     }
 }
 
@@ -177,7 +207,7 @@ function send_alerts()
     // If new alerts > 0, play alert sound
     if (new_alerts.length > 0)
     {
-        alert_audio.play()
+        alert_audio.play();
 
         // Send the notification if allowed
         if (Notification.permission === "granted")
@@ -242,7 +272,7 @@ $(document).ready(function ()
                     document.getElementById(key + "-status-icon").innerHTML = "<i class=\"fas fa-check\" style=\"color: green;\"></i>";
 
                     // If server cc is open, set proper alert-status to true
-                    server_alert.set(key, [server_alert.get(key)[0], true])
+                    server_alert.set(key, [server_alert.get(key)[0], true]);
                 }
                 // Else, CC must be closed
                 else
@@ -287,3 +317,46 @@ $(document).ready(function ()
         timer_val -= 1;
     }, 1000);
 });
+
+// Uncheck all the currently checked boxes
+function uncheck_all()
+{
+    var checked_boxes = get_checked_boxes();
+
+    for (var count = 0; count < checked_boxes.length; count++)
+    {
+        document.getElementById(checked_boxes[count]).checked = false;
+    }
+}
+
+// Plays an alert sound and notification example
+function example_alert()
+{
+    alert_audio.play();
+
+    // Send the notification if allowed
+    if (Notification.permission === "granted")
+    {        
+        // Javascript Notification
+        var notification = new Notification
+        (
+            "FFXIV Alert", 
+            {
+            body: 'This is an example notification alert.', 
+            icon: '/images/favicon.png', 
+            vibrate: true
+            }
+        )
+
+        // Notification timeout = 10seconds
+        setTimeout(() => {
+            notification.close();
+        }, 10 * 1000);
+    }
+    else
+    {
+        Notification.requestPermission();
+        notification_permission = true;
+        alert('Please press allow to enable alert notifications from this website. Then try pressing the example button again to see a notification.');   
+    }
+}

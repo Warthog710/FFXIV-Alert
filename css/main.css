@@ -11,7 +11,6 @@ body
     background-attachment: fixed;
     background-position: center;
     padding-bottom: 75px;
-    font-family: sans-serif;
 }
 
 .vertical-center
@@ -185,4 +184,34 @@ body
 .form-check-input
 {
     cursor: pointer;
+}
+
+.example-button
+{
+    background-color: var(--background-color);
+    border: 2px solid var(--background-color);
+    color: white;
+    width: 225px;
+    border-radius: 5px;
+    transition: all 0.15s ease-in-out;
+}
+
+.uncheck-button
+{
+    background-color: var(--background-color);
+    border: 2px solid var(--background-color);
+    color: white;
+    width: 125px;
+    border-radius: 5px;
+    transition: all 0.15s ease-in-out;
+}
+
+.example-button:hover
+{
+    border: 2px solid white;
+}
+
+.uncheck-button:hover
+{
+    border: 2px solid white;
 }
