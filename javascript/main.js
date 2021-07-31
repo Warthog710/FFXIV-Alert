@@ -16,7 +16,7 @@ var button_background = 'rgb(43, 43, 43)'
 var url = 'https://ffxiv-alert-api.herokuapp.com/ffxiv-server-status'
 
 // Audio to play on an alert
-var alert_audio = new Audio('/audio/FFXIV_Linkshell_Transmission.mp3');
+var alert_audio = new Audio('../audio/FFXIV_Linkshell_Transmission.mp3');
 
 function page_load(div_name)
 {
@@ -38,7 +38,7 @@ function page_load(div_name)
                 // If false, the server is offline
                 if (!val[2])
                 {
-                    document.getElementById(key + "-status-icon").innerHTML = "<img class=\"offline-icon\" src=\"/images/offline.svg\">";
+                    document.getElementById(key + "-status-icon").innerHTML = "<img class=\"offline-icon\" src=\"../images/offline.svg\">";
 
                     // If server is offline, reset alert status to false
                     server_alert.set(key, [false, false]);
@@ -233,7 +233,7 @@ function send_alerts()
                 "FFXIV Alert", 
                 {
                 body: body_str, 
-                icon: '/images/favicon.png', 
+                icon: '../images/favicon.png', 
                 vibrate: true
                 }
             )
@@ -260,7 +260,7 @@ $(document).ready(function ()
                 // If false, the server is offline
                 if (!val[2])
                 {
-                    document.getElementById(key + "-status-icon").innerHTML = "<img class=\"offline-icon\" src=\"/images/offline.svg\">";
+                    document.getElementById(key + "-status-icon").innerHTML = "<img class=\"offline-icon\" src=\"../images/offline.svg\">";
 
                     // If server is offline, reset alert status to false
                     server_alert.set(key, [false, false]);
@@ -343,7 +343,7 @@ function example_alert()
             "FFXIV Alert", 
             {
             body: 'This is an example notification alert.', 
-            icon: '/images/favicon.png', 
+            icon: '../images/favicon.png', 
             vibrate: true
             }
         )
