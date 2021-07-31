@@ -13,7 +13,7 @@ var timer_val = 13;
 var button_background = 'rgb(43, 43, 43)'
 
 // REST endpoint
-var url = 'http://127.0.0.1:5000/ffxiv-server-status'
+var url = 'https://ffxiv-alert-api.herokuapp.com/ffxiv-server-status'
 
 // Audio to play on an alert
 var alert_audio = new Audio('/audio/FFXIV_Linkshell_Transmission.mp3');
