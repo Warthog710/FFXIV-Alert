@@ -1,292 +1,740 @@
-{% extends 'base.html' %}
+<!DOCTYPE HTML>
+<html lang="en">
 
-{% block head %}
-<title>FFXIV Alert</title>
-{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="ie=edge">
 
-{% block body %}
+    <!-- Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<div class="vertical-center text-center pb-3">
-    <h1 class="outlined-text"><span><img class="logo-icon svg-outline" src="{{ url_for('static', filename='images/favicon.svg') }}"><strong> FFXIV Alert</strong></span></h1>
-</div>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-<div class="container text-center pb-2">
-    <a data-toggle="tooltip" data-placement="top" title="Character creation available">
-        <i class="fas fa-check px-5 fa-lg legend-background" style="color: green;"></i>
-    </a>
-    <a data-toggle="tooltip" data-placement="top" title="Character creation unavailable">
-        <i class="fas fa-times px-5 fa-lg legend-background" style="color: red;"></i>
-    </a>
-    <a data-toggle="tooltip" data-placement="top" title="Server offline">
-        <i class="px-5"><img class="legend-icon legend-background" style="color: red;" src="{{ url_for('static', filename='images/offline.svg') }}"></i>
-    </a>    
-</div>
+    <!-- Custom CSS -->
+    <link href="/css/main.css" rel="stylesheet">
 
-<div class="container">
-    <div class="row justify-content-center text-center">
-        <input type="radio" class="btn-check" name="btnradio" id="radio_japanese" onclick="show_div(japanese_table)">
-        <label id="japanese_button" class="button-left col-4" for="radio_japanese"><strong>Japanese Data
-                Centers</strong></label>
-        <input type="radio" class="btn-check" name="btnradio" id="radio_american" onclick="show_div(american_table)"
-            checked>
-        <label id="american_button" class="button col-4" for="radio_american"><strong>North American Data
-                Centers</strong></label>
-        <input type="radio" class="btn-check" name="btnradio" id="radio_european" onclick="show_div(european_table)">
-        <label id="european_button" class="button-right col-4" for="radio_european"><strong>European Data
-                Centers</strong></label>
+    <!-- Favicon -->
+    <link rel="icon" href="/images/favicon.png">
+
+
+    <nav class="navbar fixed-bottom">
+        <div class="container justify-content-center">
+            <a class="navbar-brand no-decoration" href="https://na.finalfantasyxiv.com/lodestone/character/20569916/"
+                target="_blank">
+                <img src="https://img2.finalfantasyxiv.com/f/199538eb159c13c71104cb25fa359416_ba22853447012a24cee115315d6a5bebfc0_96x96.jpg?1597434576"
+                    alt="Profile picture" class="navbar-icon">
+                Created by Aelderi Astralis
+            </a>
+        </div>
+    </nav>
+
+    <title>FFXIV Alert</title>
+</head>
+
+<body onload="page_load(american_table)">
+    <div class="vertical-center text-center pb-3">
+        <h1 class="outlined-text"><span><img class="logo-icon svg-outline"
+                    src="/images/favicon.svg"><strong> FFXIV Alert</strong></span>
+        </h1>
     </div>
-</div>
-<div class="display-none" id="japanese_table">
-    <div class="pt-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 p-1">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            Elemental
+
+    <div class="container text-center pb-2">
+        <a data-toggle="tooltip" data-placement="top" title="Character creation available">
+            <i class="fas fa-check px-5 fa-lg legend-background svg-outline" style="color: green;"></i>
+        </a>
+        <a data-toggle="tooltip" data-placement="top" title="Character creation unavailable">
+            <i class="fas fa-times px-5 fa-lg legend-background svg-outline" style="color: red;"></i>
+        </a>
+        <a data-toggle="tooltip" data-placement="top" title="Server offline">
+            <i class="px-5"><img class="legend-icon legend-background svg-outline"
+                    src="images/offline.svg"></i>
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <input type="radio" class="btn-check" name="btnradio" id="radio_japanese"
+                onclick="show_div(japanese_table)">
+            <label id="japanese_button" class="button-left col-4" for="radio_japanese"><strong>Japanese Data
+                    Centers</strong></label>
+            <input type="radio" class="btn-check" name="btnradio" id="radio_american" onclick="show_div(american_table)"
+                checked>
+            <label id="american_button" class="button col-4" for="radio_american"><strong>North American Data
+                    Centers</strong></label>
+            <input type="radio" class="btn-check" name="btnradio" id="radio_european"
+                onclick="show_div(european_table)">
+            <label id="european_button" class="button-right col-4" for="radio_european"><strong>European Data
+                    Centers</strong></label>
+        </div>
+    </div>
+
+    <div class="display-none" id="japanese_table">
+        <div class="pt-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Elemental
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Aegis"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Aegis">Aegis</label>
+                                    </div>
+                                    <span id="Aegis-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Atomos"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Atomos">Atomos</label>
+                                    </div>
+                                    <span id="Atomos-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Carbuncle"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Carbuncle">Carbuncle</label>
+                                    </div>
+                                    <span id="Carbuncle-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Garuda"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Garuda">Garuda</label>
+                                    </div>
+                                    <span id="Garuda-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Gungnir"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Gungnir">Gungnir</label>
+                                    </div>
+                                    <span id="Gungnir-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Kujata"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Kujata">Kujata</label>
+                                    </div>
+                                    <span id="Kujata-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Ramuh"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Ramuh">Ramuh</label>
+                                    </div>
+                                    <span id="Ramuh-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Tonberry"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Tonberry">Tonberry</label>
+                                    </div>
+                                    <span id="Tonberry-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Typhon"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Typhon">Typhon</label>
+                                    </div>
+                                    <span id="Typhon-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Unicorn"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Unicorn">Unicorn</label>
+                                    </div>
+                                    <span id="Unicorn-status-icon"></span>
+                                </li>
+                            </ul>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            {% for server in data.elemental %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
-                                        onchange="get_notification_permission()">
-                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                </div>
-                                {% if not server[3] %}
-                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                {% elif server[2] %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
-                                        style="color: green;"></i></span>
-                                {% else %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
-                                        style="color: red;"></i></span>
-                                {% endif %}
-                                {% endfor %}
-                        </ul>
                     </div>
-                </div>
-                <div class="col-md-4 p-1">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            Gaia
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Gaia
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Alexander"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Alexander">Alexander</label>
+                                    </div>
+                                    <span id="Alexander-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Bahamut"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Bahamut">Bahamut</label>
+                                    </div>
+                                    <span id="Bahamut-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Durandal"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Durandal">Durandal</label>
+                                    </div>
+                                    <span id="Durandal-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Fenrir"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Fenrir">Fenrir</label>
+                                    </div>
+                                    <span id="Fenrir-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Ifrit"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Ifrit">Ifrit</label>
+                                    </div>
+                                    <span id="Ifrit-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Ridill"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Ridill">Ridill</label>
+                                    </div>
+                                    <span id="Ridill-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Tiamat"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Tiamat">Tiamat</label>
+                                    </div>
+                                    <span id="Tiamat-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Ultima"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Ultima">Ultima</label>
+                                    </div>
+                                    <span id="Ultima-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Valefor"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Valefor">Valefor</label>
+                                    </div>
+                                    <span id="Valefor-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Yojimbo"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Yojimbo">Yojimbo</label>
+                                    </div>
+                                    <span id="Yojimbo-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Zeromus"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Zeromus">Zeromus</label>
+                                    </div>
+                                    <span id="Zeromus-status-icon"></span>
+                                </li>
+                            </ul>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            {% for server in data.gaia %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
-                                        onchange="get_notification_permission()">
-                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                </div>
-                                {% if not server[3] %}
-                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                {% elif server[2] %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
-                                        style="color: green;"></i></span>
-                                {% else %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
-                                        style="color: red;"></i></span>
-                                {% endif %}
-                                {% endfor %}
-                        </ul>
                     </div>
-                </div>
-                <div class="col-md-4 p-1">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            Mana
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Mana
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Anima"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Anima">Anima</label>
+                                    </div>
+                                    <span id="Anima-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Asura"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Asura">Asura</label>
+                                    </div>
+                                    <span id="Asura-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Belias"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Belias">Belias</label>
+                                    </div>
+                                    <span id="Belias-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Chocobo"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Chocobo">Chocobo</label>
+                                    </div>
+                                    <span id="Chocobo-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Hades"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Hades">Hades</label>
+                                    </div>
+                                    <span id="Hades-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Ixion"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Ixion">Ixion</label>
+                                    </div>
+                                    <span id="Ixion-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Mandragora"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Mandragora">Mandragora</label>
+                                    </div>
+                                    <span id="Mandragora-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Masamune"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Masamune">Masamune</label>
+                                    </div>
+                                    <span id="Masamune-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Pandaemonium"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Pandaemonium">Pandaemonium</label>
+                                    </div>
+                                    <span id="Pandaemonium-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Shinryu"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Shinryu">Shinryu</label>
+                                    </div>
+                                    <span id="Shinryu-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Titan"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Titan">Titan</label>
+                                    </div>
+                                    <span id="Titan-status-icon"></span>
+                                </li>
+                            </ul>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            {% for server in data.mana %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
-                                        onchange="get_notification_permission()">
-                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                </div>
-                                {% if not server[3] %}
-                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                {% elif server[2] %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
-                                        style="color: green;"></i></span>
-                                {% else %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
-                                        style="color: red;"></i></span>
-                                {% endif %}
-                                {% endfor %}
-                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="display-none" id="american_table">
-    <div class="pt-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 p-1">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            Aether
+    <div class="display-none" id="american_table">
+        <div class="pt-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Aether
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Adamantoise"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Adamantoise">Adamantoise</label>
+                                    </div>
+                                    <span id="Adamantoise-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Cactuar"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Cactuar">Cactuar</label>
+                                    </div>
+                                    <span id="Cactuar-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Faerie"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Faerie">Faerie</label>
+                                    </div>
+                                    <span id="Faerie-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Gilgamesh"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Gilgamesh">Gilgamesh</label>
+                                    </div>
+                                    <span id="Gilgamesh-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Jenova"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Jenova">Jenova</label>
+                                    </div>
+                                    <span id="Jenova-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Midgardsormr"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Midgardsormr">Midgardsormr</label>
+                                    </div>
+                                    <span id="Midgardsormr-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Sargatanas"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Sargatanas">Sargatanas</label>
+                                    </div>
+                                    <span id="Sargatanas-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Siren"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Siren">Siren</label>
+                                    </div>
+                                    <span id="Siren-status-icon"></span>
+                                </li>
+                            </ul>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            {% for server in data.aether %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
-                                        onchange="get_notification_permission()">
-                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                </div>
-                                {% if not server[3] %}
-                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                {% elif server[2] %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
-                                        style="color: green;"></i></span>
-                                {% else %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
-                                        style="color: red;"></i></span>
-                                {% endif %}
-                                {% endfor %}
-                        </ul>
                     </div>
-                </div>
-                <div class="col-md-4 p-1">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            Primal
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Primal
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Behemoth"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Behemoth">Behemoth</label>
+                                    </div>
+                                    <span id="Behemoth-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Excalibur"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Excalibur">Excalibur</label>
+                                    </div>
+                                    <span id="Excalibur-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Exodus"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Exodus">Exodus</label>
+                                    </div>
+                                    <span id="Exodus-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Famfrit"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Famfrit">Famfrit</label>
+                                    </div>
+                                    <span id="Famfrit-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Hyperion"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Hyperion">Hyperion</label>
+                                    </div>
+                                    <span id="Hyperion-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Lamia"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Lamia">Lamia</label>
+                                    </div>
+                                    <span id="Lamia-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Leviathan"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Leviathan">Leviathan</label>
+                                    </div>
+                                    <span id="Leviathan-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Ultros"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Ultros">Ultros</label>
+                                    </div>
+                                    <span id="Ultros-status-icon"></span>
+                                </li>
+                            </ul>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            {% for server in data.primal %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
-                                        onchange="get_notification_permission()">
-                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                </div>
-                                {% if not server[3] %}
-                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                {% elif server[2] %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
-                                        style="color: green;"></i></span>
-                                {% else %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
-                                        style="color: red;"></i></span>
-                                {% endif %}
-                                {% endfor %}
-                        </ul>
                     </div>
-                </div>
-                <div class="col-md-4 p-1">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            Crystal
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Crystal
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Balmung"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Balmung">Balmung</label>
+                                    </div>
+                                    <span id="Balmung-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Brynhildr"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Brynhildr">Brynhildr</label>
+                                    </div>
+                                    <span id="Brynhildr-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Coeurl"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Coeurl">Coeurl</label>
+                                    </div>
+                                    <span id="Coeurl-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Diabolos"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Diabolos">Diabolos</label>
+                                    </div>
+                                    <span id="Diabolos-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Goblin"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Goblin">Goblin</label>
+                                    </div>
+                                    <span id="Goblin-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Malboro"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Malboro">Malboro</label>
+                                    </div>
+                                    <span id="Malboro-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Mateus"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Mateus">Mateus</label>
+                                    </div>
+                                    <span id="Mateus-status-icon"></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Zalera"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Zalera">Zalera</label>
+                                    </div>
+                                    <span id="Zalera-status-icon"></span>
+                                </li>                                
+                            </ul>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            {% for server in data.crystal %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
-                                        onchange="get_notification_permission()">
-                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                </div>
-                                {% if not server[3] %}
-                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                {% elif server[2] %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
-                                        style="color: green;"></i></span>
-                                {% else %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
-                                        style="color: red;"></i></span>
-                                {% endif %}
-                                {% endfor %}
-                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="display-none" id="european_table">
-    <div class="pt-2">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-4 p-1">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            Chaos
+    <div class="display-none" id="european_table">
+        <div class="pt-2">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Chaos
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Cerberus"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Cerberus">Cerberus</label>
+                                    </div>
+                                    <span id="Cerberus-status-icon"></span>
+                                </li>  
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Louisoix"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Louisoix">Louisoix</label>
+                                    </div>
+                                    <span id="Louisoix-status-icon"></span>
+                                </li>  
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Moogle"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Moogle">Moogle</label>
+                                    </div>
+                                    <span id="Moogle-status-icon"></span>
+                                </li>  
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Omega"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Omega">Omega</label>
+                                    </div>
+                                    <span id="Omega-status-icon"></span>
+                                </li>  
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Ragnarok"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Ragnarok">Ragnarok</label>
+                                    </div>
+                                    <span id="Ragnarok-status-icon"></span>
+                                </li>  
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Spriggan"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Spriggan">Spriggan</label>
+                                    </div>
+                                    <span id="Spriggan-status-icon"></span>
+                                </li>  
+                            </ul>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            {% for server in data.chaos %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
-                                        onchange="get_notification_permission()">
-                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                </div>
-                                {% if not server[3] %}
-                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                {% elif server[2] %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
-                                        style="color: green;"></i></span>
-                                {% else %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
-                                        style="color: red;"></i></span>
-                                {% endif %}
-                                {% endfor %}
-                        </ul>
                     </div>
-                </div>
-                <div class="col-md-4 p-1">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            Light
+                    <div class="col-md-4 p-1">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                Light
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Lich"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Lich">Lich</label>
+                                    </div>
+                                    <span id="Lich-status-icon"></span>
+                                </li> 
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Odin"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Odin">Odin</label>
+                                    </div>
+                                    <span id="Odin-status-icon"></span>
+                                </li> 
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Phoenix"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Phoenix">Phoenix</label>
+                                    </div>
+                                    <span id="Phoenix-status-icon"></span>
+                                </li> 
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Shiva"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Shiva">Shiva</label>
+                                    </div>
+                                    <span id="Shiva-status-icon"></span>
+                                </li> 
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Twintania"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Twintania">Twintania</label>
+                                    </div>
+                                    <span id="Twintania-status-icon"></span>
+                                </li> 
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input" type="checkbox" id="Zodiark"
+                                            onchange="get_notification_permission()">
+                                        <label class="form-check-label" for="Zodiark">Zodiark</label>
+                                    </div>
+                                    <span id="Zodiark-status-icon"></span>
+                                </li> 
+                            </ul>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            {% for server in data.light %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <input class="form-check-input" type="checkbox" id="{{ server[0] }}"
-                                        onchange="get_notification_permission()">
-                                    <label class="form-check-label" for="{{ server[0] }}">{{ server[0] }}</label>
-                                </div>
-                                {% if not server[3] %}
-                                <span id="{{ server[0] }}-status-icon"><img class="offline-icon" style="color: red;"
-                                        src="{{ url_for('static', filename='images/offline.svg') }}"></span>
-                                {% elif server[2] %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-check"
-                                        style="color: green;"></i></span>
-                                {% else %}
-                                <span id="{{ server[0] }}-status-icon"><i class="fas fa-times"
-                                        style="color: red;"></i></span>
-                                {% endif %}
-                                {% endfor %}
-                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="container text-center pt-2">
-    <h4 class="outlined-text-small"><strong id="update-text">Next update in 14 seconds...</strong></h4>
-</div>
+    <div class="container text-center pt-2">
+        <h4 class="outlined-text-small"><strong id="update-text">Next update in 14 seconds...</strong></h4>
+    </div>
 
-<script>
-    //Enable Bootstrap Tooltips
-    $(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-    });
-</script>
-{% endblock %}
+    <script>
+        //Enable Bootstrap Tooltips
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+    <!-- JavaScript -->
+    <script src="/javascript/main.js"></script>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/c30f593e41.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

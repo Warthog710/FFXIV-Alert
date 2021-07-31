@@ -1,3 +1,10 @@
+/*
+    Note: sever_alert is an map of server names to a list of two boolean. The first represents whether an
+    alert has been sent (True = Sent, False = Not sent). The second boolean represents whether a server is
+    currently open for character creation (True = CC open, False = CC closed). For an alert to be sent on
+    that server both booleans must be true.
+*/
+
 // Global variable
 var alert_setup = false;
 var notification_permission = false;
@@ -5,17 +12,66 @@ var server_alert = new Map()
 var timer_val = 13;
 var button_background = 'rgb(43, 43, 43)'
 
-// Audio to play
-var alert_audio = new Audio('/static/audio/FFXIV_Linkshell_Transmission.mp3');
+// REST endpoint
+var url = 'http://127.0.0.1:5000/ffxiv-server-status'
 
+// Audio to play on an alert
+var alert_audio = new Audio('/audio/FFXIV_Linkshell_Transmission.mp3');
+
+function page_load(div_name)
+{
+    // Show the correct div
+    show_div(div_name);
+
+    // When document is ready
+    $(document).ready(function () 
+    {
+        // Get the JSON request
+        $.getJSON(url, function (data) 
+        {
+            // Setup alerts
+            setup_alert(data);
+
+            // For each key
+            $.each(data, function(key, val)
+            {
+                // If false, the server is offline
+                if (!val[2])
+                {
+                    document.getElementById(key + "-status-icon").innerHTML = "<img class=\"offline-icon\" src=\"/images/offline.svg\">";
+
+                    // If server is offline, reset alert status to false
+                    server_alert.set(key, [false, false]);
+
+                }
+                // If true, cc is open
+                else if (val[1])
+                {
+                    document.getElementById(key + "-status-icon").innerHTML = "<i class=\"fas fa-check\" style=\"color: green;\"></i>";
+
+                    // If server cc is open, set proper alert-status to true
+                    server_alert.set(key, [server_alert.get(key)[0], true])
+                }
+                // Else, CC must be closed
+                else
+                {
+                    document.getElementById(key + "-status-icon").innerHTML = "<i class=\"fas fa-times\" style=\"color: red;\"></i>";
+
+                    // If cc is closed, reset alert status to false
+                    server_alert.set(key, [false, false]);
+                }
+            });
+        });
+    });
+}
+
+// Sets initial alert-status (called when the page is loaded)
 function setup_alert(data)
 {
-    for (const [key, value] of Object.entries(data))
+    // For each server, set the initial alert status
+    for (const [key] of Object.entries(data))
     {
-        for (var count = 0; count < value.length; count++)
-        {
-            server_alert.set(value[count][0], [false, false]);
-        }
+        server_alert.set(key, [false, false]);
     }
 
     // Set setup to true
@@ -86,9 +142,10 @@ function get_checked_boxes()
     return checked_boxes
 }
 
+// Called when a checkbox is checked to ask the user for notification permissions
 function get_notification_permission()
 {
-    //If we haven't ask for notification permission do so...
+    //If we haven't asked for permission to send notifications, ask for permission
     if (!notification_permission)
     {
         Notification.requestPermission();
@@ -96,17 +153,19 @@ function get_notification_permission()
     }
 }
 
+// Sends an alert or alerts when CC is open and that server checkbox is checked
 function send_alerts()
 {
     check_alerts = get_checked_boxes();
     new_alerts = []
 
+    // For all checked boxes
     for (var count = 0; count < check_alerts.length; count++)
     {
-        // If it is a checkbox
+        // If CC is open
         if (server_alert.get(check_alerts[count])[1])
         {
-            // If alert status is false
+            // If alert status is false (no alert has been sent for this server yet)
             if (!server_alert.get(check_alerts[count])[0])
             {
                 new_alerts.push(check_alerts[count]);
@@ -144,7 +203,7 @@ function send_alerts()
                 "FFXIV Alert", 
                 {
                 body: body_str, 
-                icon: '/static/images/favicon.png', 
+                icon: '/images/favicon.png', 
                 vibrate: true
                 }
             )
@@ -163,39 +222,35 @@ $(document).ready(function ()
     setInterval(function () 
     {
         // Get the JSON request
-        $.getJSON('http://www.ffxivalert.com/data', function (data) 
+        $.getJSON(url, function (data) 
         {
-            // If the alerts have not been setup, setup the alerts
-            if (!alert_setup)
-            {
-                setup_alert(data);
-            }
-
             // For each key
             $.each(data, function(key, val)
             {
-                for (var count = 0; count < val.length; count++)
+                // If false, the server is offline
+                if (!val[2])
                 {
-                    if (!val[count][3])
-                    {
-                        document.getElementById(val[count][0] + "-status-icon").innerHTML = "<img class=\"offline-icon\" style=\"color: red;\" src=\"/static/images/offline.svg\">";
+                    document.getElementById(key + "-status-icon").innerHTML = "<img class=\"offline-icon\" src=\"/images/offline.svg\">";
 
-                        // If server is offline, reset alert status to false
-                        server_alert.set(val[count][0], [false, false]);
-                    }
-                    else if (val[count][2])
-                    {
-                        document.getElementById(val[count][0] + "-status-icon").innerHTML = "<i class=\"fas fa-check\" style=\"color: green;\"></i>";
+                    // If server is offline, reset alert status to false
+                    server_alert.set(key, [false, false]);
 
-                        server_alert.set(val[count][0], [server_alert.get(val[count][0])[0], true])
-                    }
-                    else
-                    {
-                        document.getElementById(val[count][0] + "-status-icon").innerHTML = "<i class=\"fas fa-times\" style=\"color: red;\"></i>";
+                }
+                // If true, cc is open
+                else if (val[1])
+                {
+                    document.getElementById(key + "-status-icon").innerHTML = "<i class=\"fas fa-check\" style=\"color: green;\"></i>";
 
-                        // If server is closed, reset alert status to false
-                        server_alert.set(val[count][0], [false, false]);
-                    }
+                    // If server cc is open, set proper alert-status to true
+                    server_alert.set(key, [server_alert.get(key)[0], true])
+                }
+                // Else, CC must be closed
+                else
+                {
+                    document.getElementById(key + "-status-icon").innerHTML = "<i class=\"fas fa-times\" style=\"color: red;\"></i>";
+
+                    // If cc is closed, reset alert status to false
+                    server_alert.set(key, [false, false]);
                 }
             });
 
@@ -209,6 +264,7 @@ $(document).ready(function ()
     }, 15000);
 });
 
+// Updates the page timer at 1 second intervals
 $(document).ready(function () 
 {
     setInterval(function () 

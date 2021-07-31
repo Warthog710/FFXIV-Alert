@@ -5,13 +5,12 @@
 
 body
 {
-    background-image: url("/static/images/background.jpg");
+    background-image: url("/images/background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
     padding-bottom: 75px;
-    color: white;
     font-family: sans-serif;
 }
 
@@ -95,6 +94,11 @@ body
     background-color: var(--background-color);
 }
 
+.card-header
+{
+    color: white;
+}
+
 .outlined-text
 {
     color: black;
@@ -103,14 +107,15 @@ body
 
 .outlined-text-small
 {
-    color: white;
-    -webkit-text-stroke: .7px black;
+    color: black;
+    -webkit-text-stroke: .6px white;
 }
 
 .svg-outline
 {
     filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 1px 0px white) drop-shadow(1px -1px 0px white) drop-shadow(-1px -1px 0px white);
 }
+
 
 .button
 {
@@ -175,4 +180,9 @@ body
 {
     background-color: var(--background-color);
     color: white!important;
+}
+
+.form-check-input
+{
+    cursor: pointer;
 }
