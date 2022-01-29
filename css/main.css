@@ -1,6 +1,7 @@
 :root
 {
     --background-color: rgb(43, 43, 43);
+    --button-background-color: rgba(255, 255, 255, 0.7);
 }
 
 body
@@ -128,6 +129,8 @@ body
     border-top: 2px solid var(--background-color);
     transition: all 0.15s ease-in-out;
     cursor: pointer;
+
+    background-color: var(--button-background-color)
 }
 
 .button-left
@@ -145,6 +148,8 @@ body
     border-bottom-left-radius: 10px;
     transition: all 0.15s ease-in-out;
     cursor: pointer;
+
+    background-color: var(--button-background-color)
 }
 
 .button-right
@@ -161,6 +166,8 @@ body
     border-bottom-right-radius: 10px; 
     transition: all 0.15s ease-in-out;
     cursor: pointer;
+
+    background-color: var(--button-background-color)
 }
 
 .button:hover
