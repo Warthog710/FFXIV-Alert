@@ -18,10 +18,37 @@ var url = 'https://ffxiv-alert-api.herokuapp.com/ffxiv-server-status'
 // Audio to play on an alert
 var alert_audio = new Audio('audio/FFXIV_Linkshell_Transmission.mp3');
 
-function page_load(div_name)
+function get_cooke(name)
+{
+    var cookie_name = name + "="
+    var decoded_cookie = decodeURIComponent(document.cookie);
+    decoded_cookie = decoded_cookie.split(';')
+
+    for (var index = 0; index < decoded_cookie.length; index++) {
+        if (decoded_cookie[index].includes(name)) {
+            return decoded_cookie[index].split("=")[1];
+        }
+    }
+
+    return "";
+}
+
+function page_load()
 {
     // Show the correct div
-    show_div(div_name);
+    var selected_table = get_cooke("Selected_Data_Center");
+    
+    var div;
+    if (selected_table.length > 0)
+    {
+        div = document.getElementById(selected_table)
+    }
+    else
+    {
+        div = document.getElementById("american_table");
+    }
+    
+    show_div(div);
 
     // When document is ready
     $(document).ready(function () 
@@ -96,13 +123,22 @@ function check_previously_checkboxes()
     }
 }
 
+function set_cookie(value, days)
+{
+    const date = new Date();
+    date.setTime(date.getTime() + (days*24*60*60*1000));
+    var expires = "expires=" + date.toUTCString();
+
+    document.cookie = "Selected_Data_Center" + "=" + value + ";" + expires + ";path=/; SameSite=Lax; Secure";
+}
+
 // Shows a div while hiding the other divs that are not shown
 function show_div(div_name)
 {
     //Show the selected table
-    document.getElementById(div_name.id).style.display = "block";   
+    document.getElementById(div_name.id).style.display = "block";
 
-    // Hide the other two divs and apply proper formatting
+    // Hide the other three divs and apply proper formatting
     if (div_name.id != "japanese_table")
     {
         document.getElementById("japanese_table").style.display = "none";
@@ -113,6 +149,7 @@ function show_div(div_name)
     {
         document.getElementById("japanese_button").style.background = button_background;
         document.getElementById("japanese_button").style.color = "white";
+        set_cookie("japanese_table", 7);
     }
     if (div_name.id != "american_table")
     {
@@ -124,6 +161,7 @@ function show_div(div_name)
     {
         document.getElementById("american_button").style.background = button_background;
         document.getElementById("american_button").style.color = "white";
+        set_cookie("american_table", 7);
     }
     if (div_name.id != "european_table")
     {
@@ -135,6 +173,19 @@ function show_div(div_name)
     {
         document.getElementById("european_button").style.background = button_background;
         document.getElementById("european_button").style.color = "white";
+        set_cookie("european_table", 7);
+    }
+    if (div_name.id != "oceania_table")
+    {
+        document.getElementById("oceania_table").style.display = "none";
+        document.getElementById("oceania_button").style.background = "";
+        document.getElementById("oceania_button").style.color = "black";
+    }
+    else
+    {
+        document.getElementById("oceania_button").style.background = button_background;
+        document.getElementById("oceania_button").style.color = "white";
+        set_cookie("oceania_table", 7);
     }
 }
 
